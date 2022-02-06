@@ -4,7 +4,11 @@ date: 2022-02-02T10:07:58+09:00
 draft: true
 ---
 
-# Why I Love Go
+![](https://i.pinimg.com/originals/02/df/4c/02df4c88cf17b27aba84666a789904b8.jpg)
+
+<em>Image credits to [tottie_designer](https://twitter.com/tottie_designer/status/1086298754624380928?cxt=HHwWgICv1ce9p5MeAAAA)</em>
+
+
 
 I am proud to say that I am a gopher. Out of all the languages under my belt, I probably have the least experience with Go, but I love it the most. Aside from the cute mascot, I think Go has some amazing features that made me fall in love with the language. I thought it would be fun to share my experiences and thoughts with you guys.
 
@@ -65,8 +69,6 @@ Granted, the standard library isn't focused on certain areas such as GUI develop
 Thank you to the bright minds who have created this amazing language. Coding is now fun again, and I think learning Go has played a major part in it.
 
 Thank you for reading this long post! This is my first attempt at writing a dev blog, so any feedbacks are welcome. If you have your own thoughts that you would like to share, please comment down below!
-
-
 
 *Have fun,*
 
