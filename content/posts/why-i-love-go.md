@@ -1,7 +1,7 @@
 ---
 title: "Why I Love Go"
 date: 2022-02-02T10:07:58+09:00
-draft: true
+draft: false
 ---
 
 ![](https://i.pinimg.com/originals/02/df/4c/02df4c88cf17b27aba84666a789904b8.jpg)
