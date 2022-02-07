@@ -68,6 +68,8 @@ Thank you to the bright minds who have created this amazing language. Coding is 
 
 Thank you for reading this long post! This is my first attempt at writing a dev blog, so any feedbacks are welcome. If you have some thoughts that you would like to share, please comment down below!
 
+You can also view this post on [medium.com](https://medium.com/@jpoly1219/why-i-love-go-bdbdb1759e60) and [dev.to](https://dev.to/jpoly1219/why-i-love-go-4gh5).
+
 *Have fun,*
 
 Jacob Kim
