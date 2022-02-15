@@ -75,7 +75,7 @@ Along with services, system design is a big part of the backend experience. I th
 
 I guess everyone's mileage may vary. For me, backend development is a lot more interesting than frontend development. Judging by how important interest is in terms of long-term learning, I think I made the right choice to walk the path of the backend developer. This is merely my opinion though. I know a friend who can't understand why anyone would like to work on a server-side program, something that they can't even see. When you are just starting off and have to choose which path to take, I'd say try all of them first. Then you will know for sure which area you enjoy working in.
 
-Thanks for reading! Share your opinions down below. You can also view this post on [medium.com]() and [my personal site]().
+Thanks for reading! Share your opinions down below. You can also view this post on [dev.to](https://dev.to/jpoly1219/why-i-decided-to-become-a-web-backend-developer-1817) and [medium.com](https://medium.com/@jpoly1219/why-i-decided-to-become-a-web-backend-developer-b9422bbb79c1).
 
 *Have fun,*
 
