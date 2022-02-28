@@ -42,7 +42,7 @@ Working on a group project will help you become a more responsible person, and t
 
 It may seem obvious for a lot of people that joining clubs is a good idea, and that this post is addressing a problem that doesn't exist. However, I know some friends who are leaving their dorms only when there are in-person classes. They will return to their home afterward and never step foot outside, doing nothing else but schoolwork and games. It may work for some people, but I think your time during university can be used for something greater, and joining clubs is one of the best ways to make something out of it.
 
-Thank you for reading! You can read this post on [Medium]() and [Dev.to]().
+Thank you for reading! You can read this post on [Medium](https://medium.com/@jpoly1219/cs-students-you-should-absolutely-join-clubs-ee7f8447bda8) and [Dev.to]([CS Students, You Should Absolutely Join Clubs! - DEV Community](https://dev.to/jpoly1219/cs-students-you-should-absolutely-join-clubs-475f)).
 
 *Have fun,*
 
