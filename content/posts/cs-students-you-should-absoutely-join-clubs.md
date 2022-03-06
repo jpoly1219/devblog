@@ -1,10 +1,8 @@
 ---
 title: "Cs Students You Should Absoutely Join Clubs"
 date: 2022-02-26T14:36:52+09:00
-draft: true
+draft: false
 ---
-
-I think CS is one of the busiest majors. There is a lot of coursework involved, and some concepts are difficult to understand. There are projects and exams all the time, and you get stuck in your dorms or the library to finish the programming assignment due in a couple of hours. In short, you don't have a lot of spare time when you are majoring in CS. If I tell you to join student clubs and project teams in your precious spare time, would you be willing to? Likely not. Heck, I thought it was a waste of time in the beginning. But after convincing myself to join a few, I changed my mind. I hope that this post can help you understand where I'm coming from as well.
 
 ### 1. You get to learn lots of soft skills.
 
