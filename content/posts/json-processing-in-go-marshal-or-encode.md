@@ -319,4 +319,4 @@ This is a simple example of what an API looks like in Go. Any requests to the `/
 
 The takeaway point is that you shouldn't be worried about performance too much, until it becomes an issue. Instead, you should just pick a solution that is the easiest to use at the given time. If there is a byte slice to work with, use `Marshal` and `Unmarshal`. If there is an `io.Writer` or an `io.Reader`, use `Encode` and `Decode`.
 
-Thank you for reading! This turned out to be an interesting topic for me, and I wanted to run some experiments. Let me know down in the comments if you like these types of posts! You can read this post on Medium and my personal site as well.
+Thank you for reading! This turned out to be an interesting topic for me, and I wanted to run some experiments. Let me know down in the comments if you like these types of posts! You can read this post on [Medium](https://medium.com/@jpoly1219/to-unmarshal-or-to-decode-json-processing-in-go-explained-e92fab5b648f) and [Dev.to](https://dev.to/jpoly1219/to-unmarshal-or-to-decode-json-processing-in-go-explained-5870) as well.
