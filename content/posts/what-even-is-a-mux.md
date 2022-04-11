@@ -115,4 +115,4 @@ As I mentioned above, a mux is defined in Go as a `ServeMux` type, which is a st
 
 Hopefully, this post was useful as a starting point for beginner Go web developers who want to work on backend web development. Again, this is just part 1 of the backend web development series, so keep an eye out for the next set of posts! We still haven't covered everything that Go offers us. In the next post, we will take a look at handlers in more detail.
 
-Thank you for reading! You can also view this post on Medium and my personal site.
+Thank you for reading! You can also view this post on [Medium](https://medium.com/@jpoly1219/what-even-is-a-mux-c8b4d16de55) and [Dev.to](https://dev.to/jpoly1219/what-even-is-a-mux-4fng).
