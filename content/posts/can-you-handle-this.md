@@ -14,37 +14,37 @@ Handlers are objects that "handle" HTTP requests. All handlers implement the `Ha
 
 ```go
 type Handler interface {
-	ServeHTTP(ResponseWriter, *Request)
+    ServeHTTP(ResponseWriter, *Request)
 }
 
 type ResponseWriter interface {
-	Header() Header
-	Write([]byte) (int, error)
-	WriteHeader(statusCode int)
+    Header() Header
+    Write([]byte) (int, error)
+    WriteHeader(statusCode int)
 }
 
 type Request struct {
-	Method string
-	URL *url.URL
-	Proto      string
-	ProtoMajor int
-	ProtoMinor int
-	Header Header
-	Body io.ReadCloser
-	GetBody func() (io.ReadCloser, error)
-	ContentLength int64
-	TransferEncoding []string
-	Close bool
-	Host string
-	Form url.Values
-	PostForm url.Values
-	MultipartForm *multipart.Form
-	Trailer Header
-	RemoteAddr string
-	RequestURI string
-	TLS *tls.ConnectionState
-	Cancel <-chan struct{}
-	Response *Response
+    Method string
+    URL *url.URL
+    Proto      string
+    ProtoMajor int
+    ProtoMinor int
+    Header Header
+    Body io.ReadCloser
+    GetBody func() (io.ReadCloser, error)
+    ContentLength int64
+    TransferEncoding []string
+    Close bool
+    Host string
+    Form url.Values
+    PostForm url.Values
+    MultipartForm *multipart.Form
+    Trailer Header
+    RemoteAddr string
+    RequestURI string
+    TLS *tls.ConnectionState
+    Cancel <-chan struct{}
+    Response *Response
 }
 ```
 
@@ -60,26 +60,26 @@ It's easier to understand the concept when I show you how it works in an example
 package main
 
 import (
-	"log"
-	"net/http"
+    "log"
+    "net/http"
 )
 
 type homeHandler struct {
 }
 
 func (hh homeHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Welcome!"))
+    w.Write([]byte("Welcome!"))
 }
 
 func main() {
-	mux := http.NewServeMux()
+    mux := http.NewServeMux()
 
-	hh := homeHandler{}
+    hh := homeHandler{}
 
-	mux.Handle("/home", hh)
+    mux.Handle("/home", hh)
 
-	log.Fatal(http.ListenAndServe(":8080", mux))
-}	
+    log.Fatal(http.ListenAndServe(":8080", mux))
+}    
 ```
 
 Let's take this apart and tackle it bit by bit.
@@ -89,7 +89,7 @@ type homeHandler struct {
 }
 
 func (hh homeHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Welcome!"))
+    w.Write([]byte("Welcome!"))
 }
 ```
 
@@ -99,14 +99,14 @@ func (hh homeHandler) ServeHTTP(w http.ResponseWriter, r *http.Request) {
 
 ```go
 func main() {
-	mux := http.NewServeMux()
+    mux := http.NewServeMux()
 
-	hh := homeHandler{}
+    hh := homeHandler{}
 
-	mux.Handle("/home", hh)
+    mux.Handle("/home", hh)
 
-	log.Fatal(http.ListenAndServe(":8080", mux))
-}	
+    log.Fatal(http.ListenAndServe(":8080", mux))
+}    
 ```
 
 - We define our custom mux in the main function by calling the `http.NewServeMux()`. 
@@ -127,22 +127,22 @@ Fortunately, there is an easier way to do it. We can just use functions as handl
 package main
 
 import (
-	"log"
-	"net/http"
+    "log"
+    "net/http"
 )
 
 func homeHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Welcome!"))
+    w.Write([]byte("Welcome!"))
 }
 
 func main() {
-	mux := http.NewServeMux()
+    mux := http.NewServeMux()
 
-	hh := http.HandlerFunc(homeHandler)
+    hh := http.HandlerFunc(homeHandler)
 
-	mux.Handle("/home", hh)
+    mux.Handle("/home", hh)
 
-	log.Fatal(http.ListenAndServe(":8080", mux))
+    log.Fatal(http.ListenAndServe(":8080", mux))
 }
 ```
 
@@ -156,7 +156,7 @@ You are right, `homeHandler` isn't technically a handler. However, it is somethi
 type HandlerFunc func(ResponseWriter, *Request)
 
 func (f HandlerFunc) ServeHTTP(w ResponseWriter, r *Request) {
-	f(w, r)
+    f(w, r)
 }
 ```
 
@@ -166,17 +166,17 @@ A `HandlerFunc` has its own `ServeHTTP()` method, so it implements the `Handler`
 
 ```go
 func homeHandler(w http.ResponseWriter, r *http.Request) {
-	w.Write([]byte("Welcome!"))
+    w.Write([]byte("Welcome!"))
 }
 
 func main() {
-	mux := http.NewServeMux()
+    mux := http.NewServeMux()
 
-	hh := http.HandlerFunc(homeHandler)
+    hh := http.HandlerFunc(homeHandler)
 
-	mux.Handle("/home", hh)
+    mux.Handle("/home", hh)
 
-	log.Fatal(http.ListenAndServe(":8080", mux))
+    log.Fatal(http.ListenAndServe(":8080", mux))
 }
 ```
 
@@ -186,11 +186,11 @@ There's an even faster way to do this:
 
 ```go
 func main() {
-	mux := http.NewServeMux()
+    mux := http.NewServeMux()
 
-	mux.HandleFunc("/home", homeHandler)
+    mux.HandleFunc("/home", homeHandler)
 
-	log.Fatal(http.ListenAndServe(":8080", mux))
+    log.Fatal(http.ListenAndServe(":8080", mux))
 }
 ```
 
@@ -204,4 +204,4 @@ Storytime: I started my Go journey by just ripping off tutorials. However, this 
 
 Be on the lookout for the next article coming next week. See you then!
 
-This post is also available on Medium and my personal site.
+This post is also available on [Medium](https://medium.com/@jpoly1219/can-you-handle-this-2ce97703c8d5) and [Dev.to](https://dev.to/jpoly1219/can-you-handle-this-45m5).
