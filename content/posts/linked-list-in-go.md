@@ -10,7 +10,7 @@ Welcome to my new series: Introduction to Data Structures in Go! We will start t
 
 A linked list is a data structure used to store many data. The basic structure consists of multiple *nodes* that are linked to each other by pointers. A node typically consists of stored data and a pointer to the next node.
 
-![](C:\Users\jpoly\blog\devblog\static\linked-list-in-go-1%20(3).png)
+![](/linked-list-in-go-1%20(3).png)
 
 We step into the list by following the pointer to the first node, also known as the *head*. Don't get confused - there are only three nodes in the diagram above. The first item *HEAD* is merely a pointer to the first node. The last node points to *NULL*, which signals the end of the list.
 
@@ -22,13 +22,13 @@ You may be wondering, "Why do we even have to learn this data structure? Don't w
 
 Arrays are initialized before the program is compiled. It needs a certain block of memory allocated to it.
 
-![](C:\Users\jpoly\blog\devblog\static\linked-list-in-go-1%20(1).png)
+![](/linked-list-in-go-1%20(1).png)
 
 Arrays are great when you have to find elements. Each item in the array has an index, and we can find the nth element quickly by accessing it using `myArr[n]`.
 
 The problem here is that arrays cannot be re-sized on run-time. This means that we cannot change its size after we run the program. If our array is given four blocks of memory, that means that we can't store more than four items. One way to overcome this issue is to create a new array twice as big as our original array and copy all the elements over.
 
-![](C:\Users\jpoly\blog\devblog\static\linked-list-in-go-1%20(2).png)
+![](/linked-list-in-go-1%20(2).png)
 
 Go slices are implemented this way. The problem with this approach is that copying large amounts of data is inefficient, and we still have a lot of empty space left over.
 
@@ -109,7 +109,7 @@ The second case is when the list is not empty. This means that `head` is already
 
 I drew a diagram below to help you understand the logic.
 
-![](C:\Users\jpoly\blog\devblog\static\linked-list-in-go-2.png)
+![](/linked-list-in-go-2.png)
 
 In the end, we increment the length by one.
 
@@ -144,7 +144,7 @@ Now the interesting part: in order to insert an element at the back of the list,
 
 Here's a diagram that explains how it all works. We are going to use a lot of diagrams because they can help our understanding immensely.
 
-![](C:\Users\jpoly\blog\devblog\static\linked-list-in-go-3.png)
+![](/linked-list-in-go-3.png)
 
 Finally, let's look at how we can insert data at an arbitrary location.
 
@@ -178,7 +178,7 @@ The logic here is pretty similar to the above two functions.
 
 You know the drill by now. :)
 
-![](C:\Users\jpoly\blog\devblog\static\linked-list-in-go-4.png)
+![](/linked-list-in-go-4.png)
 
 ### Deleting items
 
@@ -195,7 +195,7 @@ func (l *LinkedList) deleteAtHead() {
 
 This is how you delete the first item in the list. We just need to change the `head` so that it points to a second node. You might think that the first node stays in the memory unless we explicitly clear it, but we don't. Go's built-in garbage collector will clear this for us.
 
-![](C:\Users\jpoly\blog\devblog\static\linked-list-in-go-5.png)
+![](/linked-list-in-go-5.png)
 
 ```go
 func (l *LinkedList) deleteAtTail() {
@@ -217,7 +217,7 @@ This is how you delete the last item in the list. The logic is familiar:
 
 - We set `temp2` to point to `nil` instead of `temp1`. The last node will be cleared by the garbage collector.
 
-![](C:\Users\jpoly\blog\devblog\static\linked-list-in-go-6.png)
+![](/linked-list-in-go-6.png)
 
 ```go
 func (l *LinkedList) delete(n int) {
@@ -245,7 +245,7 @@ Finally, let's look at how to delete an item at an arbitrary position.
 
 - We set `temp1.next` to point to `temp2.next`, which effectively removes the link between the n-1th and nth elements.
 
-![](C:\Users\jpoly\blog\devblog\static\linked-list-in-go-7.png)
+![](/linked-list-in-go-7.png)
 
 Congratulations! We now know how to create a linked list, insert a node, and delete a node. Let's go a step further.
 
@@ -271,10 +271,12 @@ func (l *LinkedList) Reverse() {
 
 It's faster to look at the diagram than for me to explain the steps in plain words.
 
-![](C:\Users\jpoly\blog\devblog\static\linked-list-in-go-8.png)
+![](/linked-list-in-go-8.png)
 
 ### Conclusion
 
 A linked list is a useful data structure that is easy to implement. To beginners, linked lists could be challenging because it is the first time where pointers are used extensively. I hope this guide helped you understand how a linked list works. I wish you the best of luck in your studies!
 
-You can also read this post on Medium and [my personal site](https://jpoly1219.github.io).
+You can also read this post on [Medium](https://medium.com/@jpoly1219/linked-list-in-go-c663eb684291) and [Dev.to](https://dev.to/jpoly1219/linked-lists-in-go-3g63)
+
+
