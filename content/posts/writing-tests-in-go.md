@@ -237,4 +237,4 @@ This looks much better. We declared a struct `findSquareAreaTest` that holds the
 
 Thank you for reading this post. I hope you found it useful. There are certainly more advanced testing strategies than what I've listed here. I highly recommend you check out the [documentation for the `testing` package](https://pkg.go.dev/testing) to dive deeper. However, this post will get you started with test-driven development. Try applying it in your own personal project! I'll see you next time with more interesting topics. Bye!
 
-You can also read this post on Medium and Dev.to.
+You can also read this post on [Medium](https://medium.com/@jpoly1219/writing-tests-in-go-6861c81132b1) and [Dev.to](https://dev.to/jpoly1219/writing-tests-in-go-fd8).
