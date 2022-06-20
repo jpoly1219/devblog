@@ -646,4 +646,4 @@ Nice! We successfully debugged our code.
 
 We learned how to use Delve to debug our code like a pro. Of course, the above example could've been easily debugged by adding a print statement inside the loop in `calcMean`. However, when you encounter nasty bugs in your journey, you will thank yourself for reading this post and knowing how to use a debugger. Delve provides many more commands, which you can check out in their [documentation](https://github.com/go-delve/delve/tree/master/Documentation/cli). Last time, we learned how to write tests to prevent bugs. When bugs do appear, we now know how to use a debugger to squash them.
 
-Thank you for reading! You can also read this post on Medium and my personal site.
+Thank you for reading! You can also read this post on [Medium](https://medium.com/@jpoly1219/debugging-go-code-with-delve-22fe9de7e380) and [Dev.to](https://dev.to/jpoly1219/debugging-go-code-with-delve-2l67).
