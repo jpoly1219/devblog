@@ -1,7 +1,7 @@
 ---
 title: "Trees in Go"
 date: 2022-07-03T17:04:27+09:00
-draft: true
+draft: false
 ---
 
 Welcome back to Introduction to Data Structures in Go! In this post, we will be looking at trees. So far, we have looked at linear data structures. There was one beginning node and one end node. Data traveled in one direction: either left to right or right to left. Trees are nonlinear, which adds a layer of complexity. Trees are widely used in the programming world for many different purposes, so it is a good idea to get a firm grasp on the topic. You will have no issues with it after reading this post.
@@ -47,6 +47,8 @@ type Node struct {
 These nodes become the building blocks of a tree data structure. Trees add more complexity to our typical linked list in the sense that each node can have multiple relations to other nodes. It's not a one-directional relationship like that of arrays, stacks, and queues, which is why it is considered a nonlinear data structure. You can tell that just by looking at a sample diagram:
 
 ![](https://static.javatpoint.com/ds/images/tree.png)
+
+Image credits to https://static.javatpoint.com/ds/images/tree.png
 
 It looks like an upside-down tree, right?
 
@@ -96,6 +98,8 @@ Here is a sample binary search tree.
 
 ![](https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Binary_search_tree.svg/1024px-Binary_search_tree.svg.png)
 
+Image credits to https://upload.wikimedia.org/wikipedia/commons/thumb/d/da/Binary_search_tree.svg/1024px-Binary_search_tree.svg.png
+
 ### Traversing the binary search tree
 
 Because a binary search tree is a nonlinear data structure, there are many ways to traverse it. We will go over the two most popular methods: inorder traversal and level order traversal.
@@ -128,103 +132,103 @@ package main
 import "fmt"
 
 type Node struct {
-	data  int
-	left  *Node
-	right *Node
+    data  int
+    left  *Node
+    right *Node
 }
 
 type BST struct {
-	root *Node
+    root *Node
 }
 
 func (bst *BST) Insert(val int) {
-	bst.InsertRec(bst.root, val)
+    bst.InsertRec(bst.root, val)
 }
 
 func (bst *BST) InsertRec(node *Node, val int) *Node {
-	if bst.root == nil {
-		bst.root = &Node{val, nil, nil}
-		return bst.root
-	}
-	if node == nil {
-		return &Node{val, nil, nil}
-	}
-	if val <= node.data {
-		node.left = bst.InsertRec(node.left, val)
-	}
-	if val > node.data {
-		node.right = bst.InsertRec(node.right, val)
-	}
-	return node
+    if bst.root == nil {
+        bst.root = &Node{val, nil, nil}
+        return bst.root
+    }
+    if node == nil {
+        return &Node{val, nil, nil}
+    }
+    if val <= node.data {
+        node.left = bst.InsertRec(node.left, val)
+    }
+    if val > node.data {
+        node.right = bst.InsertRec(node.right, val)
+    }
+    return node
 }
 
 func (bst *BST) Search(val int) bool {
-	found := bst.SearchRec(bst.root, val)
-	return found
+    found := bst.SearchRec(bst.root, val)
+    return found
 }
 
 func (bst *BST) SearchRec(node *Node, val int) bool {
-	if node.data == val {
-		return true
-	}
-	if node == nil {
-		return false
-	}
-	if val < node.data {
-		return bst.SearchRec(node.left, val)
-	}
-	if val > node.data {
-		return bst.SearchRec(node.right, val)
-	}
-	return false
+    if node.data == val {
+        return true
+    }
+    if node == nil {
+        return false
+    }
+    if val < node.data {
+        return bst.SearchRec(node.left, val)
+    }
+    if val > node.data {
+        return bst.SearchRec(node.right, val)
+    }
+    return false
 }
 
 func (bst *BST) Inorder(node *Node) {
-	if node == nil {
-		return
-	} else {
-		bst.Inorder(node.left)
-		fmt.Print(node.data, " ")
-		bst.Inorder(node.right)
-	}
+    if node == nil {
+        return
+    } else {
+        bst.Inorder(node.left)
+        fmt.Print(node.data, " ")
+        bst.Inorder(node.right)
+    }
 }
 
 func (bst *BST) Levelorder() {
-	if bst.root == nil {
-		return
-	}
+    if bst.root == nil {
+        return
+    }
 
-	nodeList := make([](*Node), 0)
-	nodeList = append(nodeList, bst.root)
+    nodeList := make([](*Node), 0)
+    nodeList = append(nodeList, bst.root)
 
-	for !(len(nodeList) == 0) {
-		current := nodeList[0]
-		fmt.Print(current.data, " ")
-		if current.left != nil {
-			nodeList = append(nodeList, current.left)
-		}
-		if current.right != nil {
-			nodeList = append(nodeList, current.right)
-		}
-		nodeList = nodeList[1:]
-	}
+    for !(len(nodeList) == 0) {
+        current := nodeList[0]
+        fmt.Print(current.data, " ")
+        if current.left != nil {
+            nodeList = append(nodeList, current.left)
+        }
+        if current.right != nil {
+            nodeList = append(nodeList, current.right)
+        }
+        nodeList = nodeList[1:]
+    }
 }
 
 func main() {
-	bst := BST{}
-	bst.Insert(10)
-	bst.Insert(5)
-	bst.Insert(15)
-	bst.Insert(20)
-	bst.Insert(17)
-	bst.Insert(4)
-	bst.Insert(6)
+    bst := BST{}
+    bst.Insert(10)
+    bst.Insert(5)
+    bst.Insert(15)
+    bst.Insert(20)
+    bst.Insert(17)
+    bst.Insert(4)
+    bst.Insert(6)
 
-	bst.Inorder(bst.root)
-	fmt.Println()
-	bst.Levelorder()
-	fmt.Println()
-	fmt.Println(bst.Search(5))
+    bst.Inorder(bst.root)
+    fmt.Println()
+    bst.Levelorder()
+    fmt.Println()
+    fmt.Println(bst.Search(5))
 }
 ```
 
@@ -232,13 +236,13 @@ Let's go over each part of the code.
 
 ```go
 type Node struct {
-	data  int
-	left  *Node
-	right *Node
+    data  int
+    left  *Node
+    right *Node
 }
 
 type BST struct {
-	root *Node
+    root *Node
 }
 ```
 
@@ -246,24 +250,24 @@ These are the definitions of `Node` and `BST`. I like to create a struct for the
 
 ```go
 func (bst *BST) Insert(val int) {
-	bst.InsertRec(bst.root, val)
+    bst.InsertRec(bst.root, val)
 }
 
 func (bst *BST) InsertRec(node *Node, val int) *Node {
-	if bst.root == nil {
-		bst.root = &Node{val, nil, nil}
-		return bst.root
-	}
-	if node == nil {
-		return &Node{val, nil, nil}
-	}
-	if val <= node.data {
-		node.left = bst.InsertRec(node.left, val)
-	}
-	if val > node.data {
-		node.right = bst.InsertRec(node.right, val)
-	}
-	return node
+    if bst.root == nil {
+        bst.root = &Node{val, nil, nil}
+        return bst.root
+    }
+    if node == nil {
+        return &Node{val, nil, nil}
+    }
+    if val <= node.data {
+        node.left = bst.InsertRec(node.left, val)
+    }
+    if val > node.data {
+        node.right = bst.InsertRec(node.right, val)
+    }
+    return node
 }
 ```
 
@@ -279,24 +283,24 @@ The `InsertRec` function might seem convoluted, but we can take it apart. We pas
 
 ```go
 func (bst *BST) Search(val int) bool {
-	found := bst.SearchRec(bst.root, val)
-	return found
+    found := bst.SearchRec(bst.root, val)
+    return found
 }
 
 func (bst *BST) SearchRec(node *Node, val int) bool {
-	if node == nil {
-		return false
-	}
-	if node.data == val {
-		return true
-	}
-	if val < node.data {
-		return bst.SearchRec(node.left, val)
-	}
-	if val > node.data {
-		return bst.SearchRec(node.right, val)
-	}
-	return false
+    if node == nil {
+        return false
+    }
+    if node.data == val {
+        return true
+    }
+    if val < node.data {
+        return bst.SearchRec(node.left, val)
+    }
+    if val > node.data {
+        return bst.SearchRec(node.right, val)
+    }
+    return false
 }
 ```
 
@@ -304,13 +308,13 @@ This is the search function. It wouldn't make sense to not write a search functi
 
 ```go
 func (bst *BST) Inorder(node *Node) {
-	if node == nil {
-		return
-	} else {
-		bst.Inorder(node.left)
-		fmt.Print(node.data, " ")
-		bst.Inorder(node.right)
-	}
+    if node == nil {
+        return
+    } else {
+        bst.Inorder(node.left)
+        fmt.Print(node.data, " ")
+        bst.Inorder(node.right)
+    }
 }
 ```
 
@@ -320,24 +324,24 @@ You may have noticed that there are a lot of recursions. Recursion is a confusin
 
 ```go
 func (bst *BST) Levelorder() {
-	if bst.root == nil {
-		return
-	}
+    if bst.root == nil {
+        return
+    }
 
-	nodeList := make([](*Node), 0)
-	nodeList = append(nodeList, bst.root)
+    nodeList := make([](*Node), 0)
+    nodeList = append(nodeList, bst.root)
 
-	for !(len(nodeList) == 0) {
-		current := nodeList[0]
-		fmt.Print(current.data, " ")
-		if current.left != nil {
-			nodeList = append(nodeList, current.left)
-		}
-		if current.right != nil {
-			nodeList = append(nodeList, current.right)
-		}
-		nodeList = nodeList[1:]
-	}
+    for !(len(nodeList) == 0) {
+        current := nodeList[0]
+        fmt.Print(current.data, " ")
+        if current.left != nil {
+            nodeList = append(nodeList, current.left)
+        }
+        if current.right != nil {
+            nodeList = append(nodeList, current.right)
+        }
+        nodeList = nodeList[1:]
+    }
 }
 ```
 
@@ -345,20 +349,20 @@ Level order traversal is not recursive, because we aren't repeating a certain al
 
 ```go
 func main() {
-	bst := BST{}
-	bst.Insert(10)
-	bst.Insert(5)
-	bst.Insert(15)
-	bst.Insert(20)
-	bst.Insert(17)
-	bst.Insert(4)
-	bst.Insert(6)
+    bst := BST{}
+    bst.Insert(10)
+    bst.Insert(5)
+    bst.Insert(15)
+    bst.Insert(20)
+    bst.Insert(17)
+    bst.Insert(4)
+    bst.Insert(6)
 
-	bst.Inorder(bst.root)
-	fmt.Println()
-	bst.Levelorder()
-	fmt.Println()
-	fmt.Println(bst.Search(5))
+    bst.Inorder(bst.root)
+    fmt.Println()
+    bst.Levelorder()
+    fmt.Println()
+    fmt.Println(bst.Search(5))
 }
 ```
 
@@ -375,6 +379,4 @@ false
 
 We haven't gone over all concepts of trees, because there are so many applications and concepts. We went over the basic properties and methods using binary search trees. There is so much more to cover, so do expect to see posts on those in the future! You will use trees in many areas. If you are studying networking, you may have heard of the spanning tree protocol that prevents broadcast storms. The spanning tree is a tree consisting of nodes that represent the nodes in your network. Your file system can be represented as trees, as they are hierarchies of files and folders.
 
-Thank you for reading! You can also read this post on Medium and Dev.to.
-
-
+Thank you for reading! You can also read this post on [Medium](https://medium.com/@jpoly1219/trees-in-go-9b6ff346dcfc) and [Dev.to](https://dev.to/jpoly1219/trees-in-go-14ff).
