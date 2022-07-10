@@ -1,7 +1,7 @@
 ---
 title: "Using Goroutines Is Slower"
 date: 2022-07-10T15:36:45+09:00
-draft: true
+draft: false
 ---
 
 Ah, goroutines. One of the most defining features of the Go programming language. Once you understand the syntax of goroutines and the theory behind concurrency, you feel as if you just gained a superpower. A hammer, if you will. We get so excited to make everything concurrent. I am definitely guilty. I mean, why not, right? Concurrency solves the issue of blocking code, so making everything as concurrent as possible will speed things up, right?
@@ -28,38 +28,38 @@ We will use this snippet below for our experiment.
 package main
 
 import (
-	"encoding/csv"
-	"fmt"
-	"os"
+    "encoding/csv"
+    "fmt"
+    "os"
 )
 
 func main() {
-	db := map[string][][]string{
-		"AgeDataset-V1.csv": nil,
-		"neo_v2.csv":        nil,
-		"nba.csv":           nil,
-		"airquality.csv":    nil,
-		"titanic.csv":       nil,
-	}
-	for file := range db {
-		db[file] = ReadCsv(file)
-	}
+    db := map[string][][]string{
+        "AgeDataset-V1.csv": nil,
+        "neo_v2.csv":        nil,
+        "nba.csv":           nil,
+        "airquality.csv":    nil,
+        "titanic.csv":       nil,
+    }
+    for file := range db {
+        db[file] = ReadCsv(file)
+    }
 }
 
 func ReadCsv(filepath string) [][]string {
-	f, err := os.Open(filepath)
-	if err != nil {
-		fmt.Println(err)
-	}
-	defer f.Close()
+    f, err := os.Open(filepath)
+    if err != nil {
+        fmt.Println(err)
+    }
+    defer f.Close()
 
-	csvr := csv.NewReader(f)
-	rows, err := csvr.ReadAll()
-	if err != nil {
-		fmt.Println(err)
-	}
+    csvr := csv.NewReader(f)
+    rows, err := csvr.ReadAll()
+    if err != nil {
+        fmt.Println(err)
+    }
 
-	return rows
+    return rows
 }
 ```
 
@@ -69,24 +69,24 @@ Here is a concurrent version of the `main` function:
 
 ```go
 func main() {
-	db := map[string][][]string{
-		"AgeDataset-V1.csv": nil,
-		"neo_v2.csv":        nil,
-		"nba.csv":           nil,
-		"airquality.csv":    nil,
-		"titanic.csv":       nil,
-	}
+    db := map[string][][]string{
+        "AgeDataset-V1.csv": nil,
+        "neo_v2.csv":        nil,
+        "nba.csv":           nil,
+        "airquality.csv":    nil,
+        "titanic.csv":       nil,
+    }
 
-	var wg sync.WaitGroup
+    var wg sync.WaitGroup
 
-	wg.Add(5)
-	for file := range db {
-		go func(file string) {
-			defer wg.Done()
-			db[file] = ReadCsv(file)
-		}(file)
-	}
-	wg.Wait()
+    wg.Add(5)
+    for file := range db {
+        go func(file string) {
+            defer wg.Done()
+            db[file] = ReadCsv(file)
+        }(file)
+    }
+    wg.Wait()
 }
 ```
 
@@ -96,9 +96,9 @@ Our benchmark code is very simple:
 
 ```go
 func BenchmarkMain(b *testing.B) {
-	for i := 0; i < b.N; i++ {
-		main()
-	}
+    for i := 0; i < b.N; i++ {
+        main()
+    }
 }
 ```
 
@@ -134,30 +134,30 @@ Let's see when using goroutines backfires.
 
 ```go
 func FindSum(list []int) int {
-	sum := 0
-	for _, number := range list {
-		sum += number
-	}
-	return sum
+    sum := 0
+    for _, number := range list {
+        sum += number
+    }
+    return sum
 }
 
 func FindSumConc(list []int) int {
-	sum := 0
-	var rwm sync.RWMutex
+    sum := 0
+    var rwm sync.RWMutex
 
-	var wg sync.WaitGroup
-	wg.Add(len(list))
-	for _, number := range list {
-		go func(number int) {
-			defer wg.Done()
-			rwm.Lock()
-			defer rwm.Unlock()
-			sum += number
-		}(number)
-	}
-	wg.Wait()
+    var wg sync.WaitGroup
+    wg.Add(len(list))
+    for _, number := range list {
+        go func(number int) {
+            defer wg.Done()
+            rwm.Lock()
+            defer rwm.Unlock()
+            sum += number
+        }(number)
+    }
+    wg.Wait()
 
-	return sum
+    return sum
 }
 ```
 
@@ -167,25 +167,25 @@ We will use this benchmark code:
 
 ```go
 func BenchmarkFindSum(b *testing.B) {
-	list := make([]int, 0)
-	for i := 0; i < 1000000; i++ {
-		list = append(list, rand.Intn(1000000))
-	}
-	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
-		FindSum(list)
-	}
+    list := make([]int, 0)
+    for i := 0; i < 1000000; i++ {
+        list = append(list, rand.Intn(1000000))
+    }
+    b.ResetTimer()
+    for i := 0; i < b.N; i++ {
+        FindSum(list)
+    }
 }
 
 func BenchmarkFindSumConc(b *testing.B) {
-	list := make([]int, 0)
-	for i := 0; i < 1000000; i++ {
-		list = append(list, rand.Intn(1000000))
-	}
-	b.ResetTimer()
-	for i := 0; i < b.N; i++ {
-		FindSumConc(list)
-	}
+    list := make([]int, 0)
+    for i := 0; i < 1000000; i++ {
+        list = append(list, rand.Intn(1000000))
+    }
+    b.ResetTimer()
+    for i := 0; i < b.N; i++ {
+        FindSumConc(list)
+    }
 }
 ```
 
@@ -231,4 +231,4 @@ IO-bound jobs benefit much more from concurrent designs than CPU-bound ones. We 
 
 Hopefully, this post wasn't too confusing. I remember getting absolutely lost when trying to study concurrency. If you ever wondered why your concurrent code runs slow, check if your job is CPU-bound or IO-bound. If it's CPU-bound, you may need to utilize parallelism instead. Or more simply, do some optimization and improve your algorithm's time complexity.
 
-Thanks for reading! You can read this post on Medium and Dev.to.
+Thanks for reading! You can read this post on [Medium](https://medium.com/@jpoly1219/using-goroutines-is-slower-ba99c2fadce9) and [Dev.to](https://dev.to/jpoly1219/using-goroutines-is-slower-3b53).
