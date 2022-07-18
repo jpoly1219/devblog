@@ -22,62 +22,61 @@ Here's the code for the above example.
 package main
 
 import (
-	"fmt"
-	"math/rand"
+    "fmt"
+    "math/rand"
 )
 
 type cook interface {
-	cookFood()
-	getName() string
+    cookFood()
+    getName() string
 }
 
 type chef struct {
-	name    string
-	cuisine string
+    name    string
+    cuisine string
 }
 
 func (c chef) cookFood() {
-	result := fmt.Sprintf("%s the professional chef is cooking %s food", c.name, c.cuisine)
-	fmt.Println(result)
+    result := fmt.Sprintf("%s the professional chef is cooking %s food", c.name, c.cuisine)
+    fmt.Println(result)
 }
 
 func (c chef) getName() string {
-	return c.name
+    return c.name
 }
 
 type homeCook struct {
-	name string
+    name string
 }
 
 func (h homeCook) cookFood() {
-	result := fmt.Sprintf("%s the home cook is cooking food", h.name)
-	fmt.Println(result)
+    result := fmt.Sprintf("%s the home cook is cooking food", h.name)
+    fmt.Println(result)
 }
 
 func (h homeCook) getName() string {
-	return h.name
+    return h.name
 }
 
 func serve(c cook) {
-	c.cookFood()
-	result := fmt.Sprintf("%s: dinner is served!", c.getName())
-	fmt.Println(result)
+    c.cookFood()
+    result := fmt.Sprintf("%s: dinner is served!", c.getName())
+    fmt.Println(result)
 }
 
 func main() {
-	chef1 := chef{"Brian", "Korean"}
-	chef2 := chef{"Vincenzo", "Italian"}
-	homeCook1 := homeCook{"Amara"}
-	homeCook2 := homeCook{"Dana"}
+    chef1 := chef{"Brian", "Korean"}
+    chef2 := chef{"Vincenzo", "Italian"}
+    homeCook1 := homeCook{"Amara"}
+    homeCook2 := homeCook{"Dana"}
 
-	cooks := []cook{chef1, chef2, homeCook1, homeCook2}
+    cooks := []cook{chef1, chef2, homeCook1, homeCook2}
 
-	numCustomers := 100
-	for i := 0; i < numCustomers; i++ {
-		serve(cooks[rand.Intn(len(cooks))])
-	}
+    numCustomers := 100
+    for i := 0; i < numCustomers; i++ {
+        serve(cooks[rand.Intn(len(cooks))])
+    }
 }
-
 ```
 
 We defined an interface named `cook`. We want anyone who can `cookFood` and `getName` to be able to identify themselves as a `cook`.
@@ -113,7 +112,7 @@ func main() {
     a := "hello"
     b := 100
     c := 3.14
-    
+
     objects := []interface{}{a, b, c}
 }
 ```
@@ -138,6 +137,4 @@ To finish the post, I wanted to share with you some of the tips I have accrued o
 
 I hope this post helped you clear up some of your uncertainties about interfaces in Go. Interfaces are an essential part of the Go programming language, and you will undoubtedly run into them in your journey. When the time comes, I believe that you can handle it well. Keep up the good work gophers, and I'll see you next week with a new post.
 
-This post is also available on Medium and Dev.to.
-
-
+This post is also available on Medium and [Dev.to](https://dev.to/jpoly1219/interfaces-in-go-169i).
