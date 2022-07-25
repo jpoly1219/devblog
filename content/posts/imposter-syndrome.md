@@ -1,7 +1,7 @@
 ---
 title: "Imposter Syndrome"
 date: 2022-07-24T14:33:48+09:00
-draft: true
+draft: false
 ---
 
 Let’s take a slight detour from the usual programming guides. Today, I want to address the bane of all developers. The one that plagues juniors and seniors alike.
