@@ -56,4 +56,4 @@ Finally, always write documentation as you go. When I first joined the team, I d
 
 Thank you for reading the post. I hope that new developers can use this post to kickstart their team development journey. For seasoned veterans, I hope this post was a quick and fun read about a junior developer's experiences.
 
-This post is also available on Medium and Dev.to.
+This post is also available on [Medium](https://medium.com/@jpoly1219/working-in-a-team-e026972fcc4c) and [Dev.to](https://dev.to/jpoly1219/working-in-a-team-2269).
