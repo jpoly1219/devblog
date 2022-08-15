@@ -1,54 +1,54 @@
 ---
 title: "Intro to Concurrency in Go"
 date: 2022-08-14T16:00:39+09:00
-draft: true
+draft: false
 ---
 
-To be honest, I was scared to write this post because I myself wasn't too comfortable to concurrency until recently. I think I got the basics down, so I wanted to help other beginners learn concurrency in Go. This is the first of many concurrency tutorials, so stay tuned for more!
+Concurrency is a cool topic that can be a huge asset once you get the hang of it. To be honest, I was scared to write this post at first because I myself wasn't too comfortable with concurrency until recently. I got the basics down, so I wanted to help other beginners learn concurrency in Go. This is the first of many concurrency tutorials, so stay tuned for more!
 
 ### What is concurrency and why does it matter?
 
-Concurrency is the ability to run multiple things at the same time. Your computer has a CPU. A CPU has several threads. Each thread usually runs one program at a time. When we normally write code, that code runs sequentially, meaning that each job is run back to back. In concurrent code, those jobs are ran simultaneously by the thread.
+Concurrency is the ability to run multiple things at the same time. Your computer has a CPU. A CPU has several threads. Each thread usually runs one program at a time. When we normally write code, that code runs sequentially, meaning that each job is run back to back. In concurrent code, those jobs are run simultaneously by the thread.
 
-A good analogy is the one to a home cook. I still remember the first time I tried to cook pasta. I followed the recipe step-by-step. I chopped the vegetables, made the sauce, then cooked the spaghetti, then mixed the two together. Here, every step was done sequentially, so the next job had to wait until the current job was done.
+A good analogy is the one to a home cook. I still remember the first time I tried to cook pasta. I followed the recipe step-by-step. I chopped the vegetables, made the sauce, then cooked the spaghetti, then mixed the two. Here, every step was done sequentially, so the next job had to wait until the current job was done.
 
-Fast forward to now, where I became more experienced at cooking pasta. I now start the spaghetti first, and then work on the sauce in the meantime. Cooking time reduced to almost half because cooking the spaghetti and the sauce happened concurrently.
+Fast forward to now, where I became more experienced at cooking pasta. I now start the spaghetti first, and then work on the sauce in the meantime. Cooking time was reduced to almost half because cooking the spaghetti and the sauce happened concurrently.
 
 ### Concurrency vs. Parallelism
 
-Concurrency is a bit different from parallelism. Parallelism is similar to concurrency in that multiple jobs are happening at once. However, in parallelism, multiple threads are working different jobs each, whereas in concurrency, one thread is juggling between different jobs.
+Concurrency is a bit different from parallelism. Parallelism is similar to concurrency in that multiple jobs are happening at once. However, in parallelism, multiple threads are working different jobs each, whereas, in concurrency, one thread is juggling between different jobs.
 
-So concurrency and parallelism are two different concepts. A program can run both concurrently and parallely. Your code can be written either sequentially or concurrently. That code can be run on a single-core machine or a multi-core machine. Think of concurrency as a characteristic of your code, while parallelism as a characteristic of the execution.
+So concurrency and parallelism are two different concepts. A program can run both concurrently and parallel. Your code can be written either sequentially or concurrently. That code can be run on a single-core machine or a multi-core machine. Think of concurrency as a characteristic of your code, while parallelism as a characteristic of the execution.
 
 ### Goroutines, the worker Mortys
 
 Go makes it very simple to write concurrent code. Each concurrent job is represented by a *goroutine*. You can start a goroutine by using the `go` keyword before a function call. Ever watched *Rick and Morty*? Imagine your `main` function as a Rick who delegates tasks to goroutine Mortys.
 
-Let's start off with a sequential code.
+Let's start with a sequential code.
 
 ```go
 package main
 
 import (
-	"fmt"
-	"time"
+    "fmt"
+    "time"
 )
 
 func main() {
-	simple()
+    simple()
 }
 
 func simple() {
-	fmt.Println(time.Now(), "0")
-	time.Sleep(time.Second)
+    fmt.Println(time.Now(), "0")
+    time.Sleep(time.Second)
 
-	fmt.Println(time.Now(), "1")
-	time.Sleep(time.Second)
+    fmt.Println(time.Now(), "1")
+    time.Sleep(time.Second)
 
-	fmt.Println(time.Now(), "2")
-	time.Sleep(time.Second)
+    fmt.Println(time.Now(), "2")
+    time.Sleep(time.Second)
 
-	fmt.Println("done")
+    fmt.Println("done")
 }
 ```
 
@@ -65,18 +65,18 @@ Now let's compare that to a concurrent code.
 
 ```go
 func main() {
-	simpleConc()
+    simpleConc()
 }
 
 func simpleConc() {
-	for i := 0; i < 3; i++ {
-		go func(index int) {
-			fmt.Println(time.Now(), index)
-		}(i)
-	}
+    for i := 0; i < 3; i++ {
+        go func(index int) {
+            fmt.Println(time.Now(), index)
+        }(i)
+    }
 
-	time.Sleep(time.Second)
-	fmt.Println("done")
+    time.Sleep(time.Second)
+    fmt.Println("done")
 }
 ```
 
@@ -93,17 +93,17 @@ The code above fires off three goroutines that each print the current time and `
 
 ```go
 func main() {
-	simpleConcFail()
+    simpleConcFail()
 }
 
 func simpleConcFail() {
-	for i := 0; i < 3; i++ {
-		go func(index int) {
-			fmt.Println(time.Now(), index)
-		}(i)
-	}
+    for i := 0; i < 3; i++ {
+        go func(index int) {
+            fmt.Println(time.Now(), index)
+        }(i)
+    }
 
-	fmt.Println("done")
+    fmt.Println("done")
 }
 ```
 
@@ -115,9 +115,9 @@ Hmm... The program did exit without any panics, but we are missing the output fr
 
 This is because by default, Go does not wait for goroutines to finish. Did you know that `main` is also run inside a goroutine? The `main` goroutine fires off the worker goroutines by calling `simpleConcFail`, but it exits before the workers can even finish their job.
 
-Let's go back to the cooking analogy. Imagine you have three chefs each responsible for cooking the sauce, the spaghetti, and the meatball. Now, imagine if **Go**rdon Ramsey orders the chefs to cook a plate of spaghetti & meatballs. The three chefs will work hard to cook the sauce, the spaghetti, and the meatballs. But before the chefs are even done, Gordon rings the bell and orders the waiter to serve the food. Obviously the food isn't ready, and the customers will only get an empty plate.
+Let's go back to the cooking analogy. Imagine you have three chefs each responsible for cooking the sauce, the spaghetti, and the meatball. Now, imagine if **Go**rdon Ramsey orders the chefs to cook a plate of spaghetti & meatballs. The three chefs will work hard to cook the sauce, the spaghetti, and the meatballs. But before the chefs are even done, Gordon rings the bell and orders the waiter to serve the food. Obviously, the food isn't ready, and the customers will only get an empty plate.
 
-This is why we wait for a second before exiting the program. Obviously, we aren't always sure that every job will finish in one second. There is a better way to wait for jobs to be done, but we first need to learn another concept.
+This is why we wait for a second before exiting the program. We aren't always sure that every job will finish in one second. There is a better way to wait for jobs to be done, but we first need to learn another concept.
 
 To summarize, we learned these things:
 
@@ -125,7 +125,7 @@ To summarize, we learned these things:
 
 - Using concurrency can boost your performance.
 
-- `main` goroutine does not wait for worker goroutines to finish by default.
+- The `main` goroutine does not wait for worker goroutines to finish by default.
 
 - We need a way to wait for each goroutine to finish.
 
@@ -145,14 +145,14 @@ func main() {
 }
 
 func unbufferedCh() {
-	ch := make(chan int)
+    ch := make(chan int)
 
-	go func() {
-		ch <- 1
-	}()
+    go func() {
+        ch <- 1
+    }()
 
-	res := <-ch
-	fmt.Println(res)
+    res := <-ch
+    fmt.Println(res)
 }
 ```
 
@@ -170,10 +170,10 @@ func main() {
 }
 
 func unbufferedChFail() {
-	ch := make(chan int)
-	ch <- 1
-	res := <-ch
-	fmt.Println(res)
+    ch := make(chan int)
+    ch <- 1
+    res := <-ch
+    fmt.Println(res)
 }
 ```
 
@@ -181,7 +181,7 @@ func unbufferedChFail() {
 fatal error: all goroutines are asleep - deadlock!
 ```
 
-We run into a new terminology. What is a deadlock? A deadlock is where your program is stuck. Why would the above code get stuck in a deadlock?
+We run into a new word. What is a deadlock? A deadlock is where your program is stuck. Why would the above code get stuck in a deadlock?
 
 To understand this, we need to know an important characteristic of channels. We created an unbuffered channel, meaning that nothing can be stored within it at a given time. This means that both the sender and the receiver must be ready simultaneously before data can be transferred across the channel.
 
@@ -198,9 +198,9 @@ func main() {
 
 func unbufferedCh() {
     ch2 := make(chan int)
-	close(ch2)
-	res2 := <-ch2
-	fmt.Println(res2)
+    close(ch2)
+    res2 := <-ch2
+    fmt.Println(res2)
 }
 ```
 
@@ -208,7 +208,7 @@ func unbufferedCh() {
 0
 ```
 
-Closing the channel means that no more data can be send to it. We can still receive from the channel. For unbuffered channels, receiving from a closed channel will return a zero-value of the channel's type.
+Closing the channel means that no more data can be sent to it. We can still receive it from the channel. For unbuffered channels, receiving from a closed channel will return a zero value of the channel's type.
 
 To summarize, we learned these things:
 
@@ -222,13 +222,13 @@ To summarize, we learned these things:
 
 - A closed channel will not accept any data.
 
-- Receiving from a closed unbuffered channel will return a zero-value.
+- Receiving from a closed unbuffered channel will return a zero value.
 
 Wouldn't it be nice for channels to hold data for some time? Here's where buffered channels come to play.
 
 ### Buffered channels, the portal that is somehow cylindrical?
 
-Bufferend channels are channels with buffers. Data can be stored in these, so sending and receiving don't have to happen simultaneously.
+Buffered channels are channels with buffers. Data can be stored in these, so sending and receiving don't have to happen simultaneously.
 
 ```go
 func main() {
@@ -236,10 +236,10 @@ func main() {
 }
 
 func bufferedCh() {
-	ch := make(chan int, 1)
-	ch <- 1
-	res := <-ch
-	fmt.Println(res)
+    ch := make(chan int, 1)
+    ch <- 1
+    res := <-ch
+    fmt.Println(res)
 }
 ```
 
@@ -247,7 +247,7 @@ func bufferedCh() {
 1
 ```
 
-Here, `1` is stored inside `ch` until we receive from it.
+Here, `1` is stored inside `ch` until we receive it.
 
 Obviously, we can't send more to a full buffered channel. You need to have space in the buffer before you can send more.
 
@@ -257,11 +257,11 @@ func main() {
 }
 
 func bufferedChFail() {
-	ch := make(chan int, 1)
-	ch <- 1
-	ch <- 2
-	res := <-ch
-	fmt.Println(res)
+    ch := make(chan int, 1)
+    ch <- 1
+    ch <- 2
+    res := <-ch
+    fmt.Println(res)
 }
 ```
 
@@ -273,15 +273,15 @@ You also cannot receive from an empty buffered channel.
 
 ```go
 func main() {
-	bufferedChFail2()
+    bufferedChFail2()
 }
 
 func bufferedChFail2() {
-	ch := make(chan int, 1)
-	ch <- 1
-	res := <-ch
-	res2 := <-ch
-	fmt.Println(res, res2)
+    ch := make(chan int, 1)
+    ch <- 1
+    res := <-ch
+    res2 := <-ch
+    fmt.Println(res, res2)
 }
 ```
 
@@ -297,13 +297,13 @@ func main() {
 }
 
 func bufferedCh2() {
-	ch := make(chan int, 1)
-	ch <- 1
-	go func() {
-		ch <- 2
-	}()
-	res := <-ch
-	fmt.Println(res)
+    ch := make(chan int, 1)
+    ch <- 1
+    go func() {
+        ch <- 2
+    }()
+    res := <-ch
+    fmt.Println(res)
 }
 ```
 
@@ -311,7 +311,7 @@ func bufferedCh2() {
 1
 ```
 
-We receive once to take out the `1`, so that the goroutine can send `2` to the channel. We didn't receive twice, so only `1` will be received.
+We receive once to take out the `1` so that the goroutine can send `2` to the channel. We didn't receive from `ch` twice, so only `1` will be received.
 
 We can also receive from closed buffered channels. In this case, we can range over the closed channel to iterate over the remaining items inside it.
 
@@ -321,18 +321,18 @@ func main() {
 }
 
 func bufferedChRange() {
-	ch := make(chan int, 3)
-	ch <- 1
-	ch <- 2
-	ch <- 3
-	close(ch)
-	for res := range ch {
-		fmt.Println(res)
-	}
-	// you could also do this
-	// fmt.Println(<-ch)
-	// fmt.Println(<-ch)
-	// fmt.Println(<-ch)
+    ch := make(chan int, 3)
+    ch <- 1
+    ch <- 2
+    ch <- 3
+    close(ch)
+    for res := range ch {
+        fmt.Println(res)
+    }
+    // you could also do this
+    // fmt.Println(<-ch)
+    // fmt.Println(<-ch)
+    // fmt.Println(<-ch)
 }
 ```
 
@@ -348,7 +348,7 @@ To summarize,
 
 - Buffered channels are channels with space to hold items.
 
-- Sending and receiving do not have to happen at the same time, unlike unbuffered channels.
+- Sending and receiving does not have to happen at the same time, unlike unbuffered channels.
 
 - Sending to a full channel and receiving from an empty channel will result in a deadlock.
 
@@ -364,22 +364,22 @@ func main() {
 }
 
 func basicSyncing() {
-	done := make(chan struct{})
+    done := make(chan struct{})
 
-	go func() {
-		for i := 0; i < 5; i++ {
-			fmt.Printf("%s worker %d start\n", fmt.Sprint(time.Now()), i)
-			time.Sleep(time.Duration(rand.Intn(5)) * time.Second)
-		}
-		close(done)
-	}()
+    go func() {
+        for i := 0; i < 5; i++ {
+            fmt.Printf("%s worker %d start\n", fmt.Sprint(time.Now()), i)
+            time.Sleep(time.Duration(rand.Intn(5)) * time.Second)
+        }
+        close(done)
+    }()
 
-	<-done
-	fmt.Println("exiting...")
+    <-done
+    fmt.Println("exiting...")
 }
 ```
 
-We make a `done` channel that is responsible for blocking the code until the goroutine is done. `done` can be of any type, but `struct{}` is used often for these types of channels. Its purpose is not to transfer structs, so its type really doesn't matter.
+We make a `done` channel that is responsible for blocking the code until the goroutine is done. `done` can be of any type, but `struct{}` is used often for these types of channels. Its purpose is not to transfer structs, so its type doesn't matter.
 
 The worker goroutine will close `done` once its job is done. At this point, we can receive from `done`, which will be an empty struct. The receiving action unblocks the code, allowing it to exit.
 
@@ -387,4 +387,6 @@ This is how we wait for goroutines to finish using channels.
 
 ### Conclusion
 
-Concurrency can seem like a daunting topic. I certainly believed that to be the case. However, after understanding the basics, I think the implementation is really beautiful. Hopefully you guys can get something out of this tutorial! We've merely scratched the surface, and there is much more that Go has to offer us. I'll see you next time with more concurrency tutorials. Bye!
+Concurrency can seem like a daunting topic. I certainly believed that to be the case. However, after understanding the basics, I think the implementation is really beautiful. Hopefully, you guys can get something out of this tutorial! We've merely scratched the surface, and there is much more that Go has to offer us. I'll see you next time with more concurrency tutorials. Bye!
+
+You can also read this post on [Medium](https://medium.com/@jpoly1219/intro-to-concurrency-in-go-5cf971a9d0b5) and [Dev.to](https://dev.to/jpoly1219/intro-to-concurrency-in-go-46e4).
