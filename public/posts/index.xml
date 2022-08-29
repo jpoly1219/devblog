@@ -6,7 +6,19 @@
     <description>Recent content in Posts on Jacob&#39;s Dev Blog</description>
     <generator>Hugo -- gohugo.io</generator>
     <language>en-us</language>
-    <lastBuildDate>Sun, 14 Aug 2022 16:00:39 +0900</lastBuildDate><atom:link href="https://jpoly1219.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <lastBuildDate>Sun, 21 Aug 2022 15:59:17 +0900</lastBuildDate><atom:link href="https://jpoly1219.github.io/posts/index.xml" rel="self" type="application/rss+xml" />
+    <item>
+      <title>Waitgroups in Go</title>
+      <link>https://jpoly1219.github.io/posts/waitgroups-in-go/</link>
+      <pubDate>Sun, 21 Aug 2022 15:59:17 +0900</pubDate>
+      
+      <guid>https://jpoly1219.github.io/posts/waitgroups-in-go/</guid>
+      
+        <description>Welcome back to Introduction to Concurrency in Go! Last time, we had our first taste of concurrency in Go. We examined what goroutines and channels are, the differences between buffered and unbuffered channels, and a simple way to wait for goroutines to finish. This time, we are going to talk about WaitGroups, which is a different way to sync your goroutines.
+What are WaitGroups? WaitGroups are an effective way to sync your goroutines.</description>
+      
+    </item>
+    
     <item>
       <title>Intro to Concurrency in Go</title>
       <link>https://jpoly1219.github.io/posts/intro-to-concurrency-in-go/</link>
