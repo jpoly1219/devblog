@@ -1,7 +1,7 @@
 ---
 title: "Listening to Multiple Channels in Go"
 date: 2022-08-28T12:22:35-04:00
-draft: true
+draft: false
 ---
 
 Welcome back to the series! Today we will look at ways to listen to multiple channels at once. The guides before helped you get started with concurrency in Go. Although simple methods are often the best ones, you may have been stuck trying to implement more complex behaviors. After reading this guide, you will be able to make your concurrent code more flexible.
@@ -14,34 +14,33 @@ We can use the `select` keyword to listen to multiple goroutines at once.
 package main
 
 import (
-	"fmt"
-	"time"
+    "fmt"
+    "time"
 )
 
 func main() {
-	c1 := make(chan string)
-	c2 := make(chan string)
+    c1 := make(chan string)
+    c2 := make(chan string)
 
-	go func() {
-		time.Sleep(1 * time.Second)
-		c1 <- time.Now().String()
-	}()
+    go func() {
+        time.Sleep(1 * time.Second)
+        c1 <- time.Now().String()
+    }()
 
-	go func() {
-		time.Sleep(2 * time.Second)
-		c2 <- time.Now().String()
-	}()
+    go func() {
+        time.Sleep(2 * time.Second)
+        c2 <- time.Now().String()
+    }()
 
-	for i := 0; i < 2; i++ {
-		select {
-		case res1 := <-c1:
-			fmt.Println("from c1:", res1)
-		case res2 := <-c2:
-			fmt.Println("from c2:", res2)
-		}
-	}
+    for i := 0; i < 2; i++ {
+        select {
+        case res1 := <-c1:
+            fmt.Println("from c1:", res1)
+        case res2 := <-c2:
+            fmt.Println("from c2:", res2)
+        }
+    }
 }
-
 ```
 
 ```
@@ -69,30 +68,29 @@ Sometimes we don't know how many jobs there are. In this case, put the `select` 
 package main
 
 import (
-	"fmt"
-	"math/rand"
-	"time"
+    "fmt"
+    "math/rand"
+    "time"
 )
 
 func main() {
-	c1 := make(chan string)
-	rand.Seed(time.Now().UnixNano())
+    c1 := make(chan string)
+    rand.Seed(time.Now().UnixNano())
 
-	for i := 0; i < rand.Intn(10); i++ {
-		go func() {
-			time.Sleep(1 * time.Second)
-			c1 <- time.Now().String()
-		}()
-	}
+    for i := 0; i < rand.Intn(10); i++ {
+        go func() {
+            time.Sleep(1 * time.Second)
+            c1 <- time.Now().String()
+        }()
+    }
 
-	for {
-		select {
-		case res1 := <-c1:
-			fmt.Println("from c1:", res1)
-		}
-	}
+    for {
+        select {
+        case res1 := <-c1:
+            fmt.Println("from c1:", res1)
+        }
+    }
 }
-
 ```
 
 Because we let a random number of goroutines run, we don't know how many jobs there are. Thankfully, the for loop at the bottom encasing the select statement will capture every output. Let's see what happens if we run this code.
@@ -121,43 +119,42 @@ So how do we solve this? We can use a combination of the concepts covered in pre
 package main
 
 import (
-	"fmt"
-	"math/rand"
-	"sync"
-	"time"
+    "fmt"
+    "math/rand"
+    "sync"
+    "time"
 )
 
 func main() {
-	c1 := make(chan string)
-	exit := make(chan struct{})
-	rand.Seed(time.Now().UnixNano())
-	var wg sync.WaitGroup
+    c1 := make(chan string)
+    exit := make(chan struct{})
+    rand.Seed(time.Now().UnixNano())
+    var wg sync.WaitGroup
 
-	go func() {
-		numJob := rand.Intn(10)
-		fmt.Println("number of jobs:", numJob)
-		for i := 0; i < numJob; i++ {
-			wg.Add(1)
-			go func() {
-				defer wg.Done()
-				time.Sleep(1 * time.Second)
-				c1 <- time.Now().String()
-			}()
-		}
-		wg.Wait()
-		close(exit)
-	}()
+    go func() {
+        numJob := rand.Intn(10)
+        fmt.Println("number of jobs:", numJob)
+        for i := 0; i < numJob; i++ {
+            wg.Add(1)
+            go func() {
+                defer wg.Done()
+                time.Sleep(1 * time.Second)
+                c1 <- time.Now().String()
+            }()
+        }
+        wg.Wait()
+        close(exit)
+    }()
 
-	for {
-		select {
-		case res1 := <-c1:
-			fmt.Println("from c1:", res1)
-		case <-exit:
-			return
-		}
-	}
+    for {
+        select {
+        case res1 := <-c1:
+            fmt.Println("from c1:", res1)
+        case <-exit:
+            return
+        }
+    }
 }
-
 ```
 
 ```
@@ -185,55 +182,54 @@ The `select` statement is blocking by default. How do we make this non-blocking?
 package main
 
 import (
-	"fmt"
-	"math/rand"
-	"sync"
-	"time"
+    "fmt"
+    "math/rand"
+    "sync"
+    "time"
 )
 
 func main() {
-	ashleyMsg := make(chan string)
-	brianMsg := make(chan string)
-	exit := make(chan struct{})
-	rand.Seed(time.Now().UnixNano())
-	var wg sync.WaitGroup
+    ashleyMsg := make(chan string)
+    brianMsg := make(chan string)
+    exit := make(chan struct{})
+    rand.Seed(time.Now().UnixNano())
+    var wg sync.WaitGroup
 
-	go func() {
-		numJob := rand.Intn(10)
-		fmt.Println("number of jobs:", numJob)
-		for i := 0; i < numJob; i++ {
-			wg.Add(2)
-			go func() {
-				defer wg.Done()
-				time.Sleep(time.Duration(rand.Intn(10)) * time.Millisecond)
-				ashleyMsg <- "hi"
-			}()
-			go func() {
-				defer wg.Done()
-				time.Sleep(time.Duration(rand.Intn(10)) * time.Millisecond)
-				brianMsg <- "what's up"
-			}()
-		}
-		wg.Wait()
-		close(exit)
-	}()
+    go func() {
+        numJob := rand.Intn(10)
+        fmt.Println("number of jobs:", numJob)
+        for i := 0; i < numJob; i++ {
+            wg.Add(2)
+            go func() {
+                defer wg.Done()
+                time.Sleep(time.Duration(rand.Intn(10)) * time.Millisecond)
+                ashleyMsg <- "hi"
+            }()
+            go func() {
+                defer wg.Done()
+                time.Sleep(time.Duration(rand.Intn(10)) * time.Millisecond)
+                brianMsg <- "what's up"
+            }()
+        }
+        wg.Wait()
+        close(exit)
+    }()
 
-	for {
-		select {
-		case res1 := <-ashleyMsg:
-			fmt.Println("ashley:", res1)
-		case res2 := <-brianMsg:
-			fmt.Println("brian:", res2)
-		case <-exit:
-			fmt.Println("chat ended")
-			return
-		default:
-			fmt.Println("...")
-			time.Sleep(time.Millisecond)
-		}
-	}
+    for {
+        select {
+        case res1 := <-ashleyMsg:
+            fmt.Println("ashley:", res1)
+        case res2 := <-brianMsg:
+            fmt.Println("brian:", res2)
+        case <-exit:
+            fmt.Println("chat ended")
+            return
+        default:
+            fmt.Println("...")
+            time.Sleep(time.Millisecond)
+        }
+    }
 }
-
 ```
 
 ```
@@ -263,4 +259,4 @@ Aside from the lame conversation, we can see how a default case works. Instead o
 
 That's it for this post! Now you can listen to multiple channels simultaneously, which can be a huge asset when you are developing your personal project. Thanks for reading, and I'll see you guys next time.
 
-You can also read this post on Medium and Dev.to.
+You can also read this post on [Medium](https://medium.com/@jpoly1219/listening-to-multiple-channels-in-go-11a1c6cd3a21) and [Dev.to](https://dev.to/jpoly1219/listening-to-multiple-channels-in-go-152e).
