@@ -1,7 +1,7 @@
 ---
 title: "Mutexes in Go"
 date: 2022-09-18T20:01:36-04:00
-draft: true
+draft: false
 ---
 
 Welcome back to Intro to Concurrency in Go! Today we will be looking at how to protect shared resources from being overwritten by other goroutines. If you have played Minecraft before, chances are that you couldn't build something because your friends took that one item in the chest before you could use it. Wouldn't it be nice to figure out a way to make sure that only one person can interact with the chest at a given time? Well, it turns out that gamers aren't the only ones who thought of this.
@@ -22,46 +22,46 @@ A code tends to speak a thousand words. Let's see how we can use one.
 package main
 
 import (
-	"fmt"
-	"sync"
-	"time"
+    "fmt"
+    "sync"
+    "time"
 )
 
 func main() {
-	type chest struct {
-		mu        sync.Mutex
-		container []string
-	}
+    type chest struct {
+        mu        sync.Mutex
+        container []string
+    }
 
-	newChest := chest{container: []string{}}
-	newChest.container = append(newChest.container, "Oak Plank", "Spruce Plank", "Birch Plank", "Jungle Plank")
-	var wg sync.WaitGroup
-	wg.Add(2)
+    newChest := chest{container: []string{}}
+    newChest.container = append(newChest.container, "Oak Plank", "Spruce Plank", "Birch Plank", "Jungle Plank")
+    var wg sync.WaitGroup
+    wg.Add(2)
 
-	go func() {
-		defer wg.Done()
-		newChest.mu.Lock()
-		newChest.container = newChest.container[0:2]
-		newChest.mu.Unlock()
-	}()
+    go func() {
+        defer wg.Done()
+        newChest.mu.Lock()
+        newChest.container = newChest.container[0:2]
+        newChest.mu.Unlock()
+    }()
 
-	go func() {
-		defer wg.Done()
-		newChest.mu.Lock()
-		if len(newChest.container) == 4 {
-			fmt.Println("we can make a crafting table!")
-			time.Sleep(time.Second)
-			fmt.Println("currently have: ", newChest.container)
-			fmt.Println("making a crafting table...")
-			fmt.Println("done!")
-		}
+    go func() {
+        defer wg.Done()
+        newChest.mu.Lock()
+        if len(newChest.container) == 4 {
+            fmt.Println("we can make a crafting table!")
+            time.Sleep(time.Second)
+            fmt.Println("currently have: ", newChest.container)
+            fmt.Println("making a crafting table...")
+            fmt.Println("done!")
+        }
 
-		newChest.mu.Unlock()
-	}()
+        newChest.mu.Unlock()
+    }()
 
-	wg.Wait()
+    wg.Wait()
 
-	fmt.Println(newChest.container)
+    fmt.Println(newChest.container)
 }
 ```
 
@@ -79,42 +79,41 @@ What happens if we take out the mutex?
 
 ```go
 func main() {
-	type chest struct {
-		mu        sync.Mutex
-		container []string
-	}
+    type chest struct {
+        mu        sync.Mutex
+        container []string
+    }
 
-	newChest := chest{container: []string{}}
-	newChest.container = append(newChest.container, "Oak Plank", "Spruce Plank", "Birch Plank", "Jungle Plank")
-	var wg sync.WaitGroup
-	wg.Add(2)
+    newChest := chest{container: []string{}}
+    newChest.container = append(newChest.container, "Oak Plank", "Spruce Plank", "Birch Plank", "Jungle Plank")
+    var wg sync.WaitGroup
+    wg.Add(2)
 
-	go func() {
-		defer wg.Done()
-		// newChest.mu.Lock()
-		newChest.container = newChest.container[0:2]
-		// newChest.mu.Unlock()
-	}()
+    go func() {
+        defer wg.Done()
+        // newChest.mu.Lock()
+        newChest.container = newChest.container[0:2]
+        // newChest.mu.Unlock()
+    }()
 
-	go func() {
-		defer wg.Done()
-		// newChest.mu.Lock()
-		if len(newChest.container) == 4 {
-			fmt.Println("we can make a crafting table!")
-			time.Sleep(time.Second)
-			fmt.Println("currently have: ", newChest.container)
-			fmt.Println("making a crafting table...")
-			fmt.Println("done!")
-		}
+    go func() {
+        defer wg.Done()
+        // newChest.mu.Lock()
+        if len(newChest.container) == 4 {
+            fmt.Println("we can make a crafting table!")
+            time.Sleep(time.Second)
+            fmt.Println("currently have: ", newChest.container)
+            fmt.Println("making a crafting table...")
+            fmt.Println("done!")
+        }
 
-		// newChest.mu.Unlock()
-	}()
+        // newChest.mu.Unlock()
+    }()
 
-	wg.Wait()
+    wg.Wait()
 
-	fmt.Println(newChest.container)
+    fmt.Println(newChest.container)
 }
-
 ```
 
 ```
